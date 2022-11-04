@@ -1,5 +1,5 @@
-import React from 'react'
-import { ISymptomOption, TOnSymptomSelectFn } from '../utils/types'
+import React from 'react';
+import { ISymptomOption, TOnSymptomSelectFn } from '../utils/types';
 
 interface ISuggestionsProps {
 	onSelect: TOnSymptomSelectFn;
