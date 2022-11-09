@@ -1,6 +1,6 @@
 export type TSymptomKey = string;
 
-export interface ISymptomOption {
+export interface ISymptom {
 	key: TSymptomKey;
 	label: string;
 }

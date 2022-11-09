@@ -1,9 +1,9 @@
 import React from 'react';
-import { ISymptomOption, TOnSymptomSelectFn } from '../utils/types';
+import { ISymptom, TOnSymptomSelectFn } from '../utils/types';
 
 interface ISuggestionsProps {
 	onSelect: TOnSymptomSelectFn;
-	items: ISymptomOption[];
+	items: ISymptom[];
 }
 
 export default function Suggestions({ items, onSelect }: ISuggestionsProps) {

@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useState } from 'react';
-import { ISymptomOption, TNewEntryFn, TOnSymptomSelectFn, TSearchSymptomFn, TSymptomKey } from '../utils/types';
+import { ISymptom, TNewEntryFn, TOnSymptomSelectFn, TSearchSymptomFn, TSymptomKey } from '../utils/types';
 import Suggestions from './Suggestions';
 
 const inputId = 'addEntryInput';
@@ -8,7 +8,7 @@ const inputId = 'addEntryInput';
 interface IAddEntryProps {
 	onSearch: TSearchSymptomFn;
   onNewEntry: TNewEntryFn;
-  searchResults?: ISymptomOption[];
+  searchResults?: ISymptom[];
 }
 
 export default function addEntry({ onSearch, searchResults, onNewEntry }: IAddEntryProps) {

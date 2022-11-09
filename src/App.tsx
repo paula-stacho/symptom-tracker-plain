@@ -1,31 +1,26 @@
 import React, { useState } from 'react';
 import AddEntry from './components/AddEntry';
 import Entries from './components/Entries';
-import { IEntry, ISymptomOption, TNewEntryFn, TSearchSymptomFn } from './utils/types';
+import ErrorMessage from './components/ErrorMessage';
+import useStorage from './hooks/useStorage';
+import { IEntry, ISymptom, TNewEntryFn, TSearchSymptomFn } from './utils/types';
 
 export default function App() {
-  const existingSymptomsMock: ISymptomOption[] = [
-    { key: 'headache', label: 'headache' },
-    { key: 'other', label: 'something else' },
-  ];
-  const [addEntrySuggestions, setAddEntrySuggestions] = useState<ISymptomOption[] | undefined>(undefined);
-  const [entries, setEntries] = useState<IEntry[]>([]);
+  const [addEntrySuggestions, setAddEntrySuggestions] = useState<ISymptom[] | undefined>(undefined);
+  const { entries, addEntry, symptoms, addSymptom, storageError, isLoading } = useStorage();
 
   const handleSearch: TSearchSymptomFn = (term: string) => {
     if (!term) return setAddEntrySuggestions(undefined);
 
-    const results = existingSymptomsMock.filter(({ label }) => label.includes(term));
+    const results = symptoms.filter(({ label }) => label.includes(term));
     setAddEntrySuggestions(results);
-  }
-
-  const handleNewEntry: TNewEntryFn = (entry: IEntry) => {
-    setEntries([...entries, entry]);
-  }
+  };
 
   return (
     <>
-      <AddEntry onSearch={handleSearch} searchResults={addEntrySuggestions} onNewEntry={handleNewEntry} />
-      <Entries entries={entries} knownSymptoms={existingSymptomsMock} />
+      <AddEntry onSearch={handleSearch} searchResults={addEntrySuggestions} onNewEntry={addEntry} />
+      <Entries entries={entries} knownSymptoms={symptoms} />
+      {storageError && <ErrorMessage>{storageError}</ErrorMessage>}
     </>
   );
 }
