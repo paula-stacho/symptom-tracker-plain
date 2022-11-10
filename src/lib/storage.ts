@@ -1,19 +1,35 @@
-import { ISymptom, IEntry } from './../utils/types';
+import { ISymptom, IEntry, INewSymptom, INewEntry } from './../utils/types';
 import { getAll, saveOne } from "./firebase/firebaseStorage";
 import { Collection } from './firebase/types';
 
-export async function addSymptom(symptom: ISymptom) {
+interface IStorage {
+	addSymptom: (symptom: INewSymptom) => Promise<string>;
+	getSymptoms: () => Promise<ISymptom[]>;
+	addEntry: (entry: INewEntry) => Promise<string>;
+	getEntries: () => Promise<IEntry[]>;
+}
+
+async function addSymptom(symptom: ISymptom) {
 	return await saveOne<ISymptom>(Collection.SYMPTOMS, symptom);
 }
 
-export async function getSymptoms() {
+async function getSymptoms() {
 	return await getAll<ISymptom>(Collection.SYMPTOMS);
 }
 
-export async function addEntry(entry: IEntry) {
+async function addEntry(entry: IEntry): Promise<string> {
 	return await saveOne<IEntry>(Collection.ENTRIES, entry);
 }
 
-export async function getEntries() {
+async function getEntries() {
 	return await getAll<IEntry>(Collection.ENTRIES);
 }
+
+const firebaseStorage: IStorage = {
+	addSymptom,
+	getSymptoms,
+	addEntry,
+	getEntries,
+};
+
+export default firebaseStorage;

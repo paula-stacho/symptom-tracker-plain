@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { getEntries, getSymptoms, addEntry, addSymptom } from "../lib/storage";
-import { IEntry, ISymptom } from "../utils/types";
+import storage from "../lib/storage";
+import { IEntry, INewEntry, INewSymptom, ISymptom } from "../utils/types";
 
 export interface IStorage {
 	entries: IEntry[],
-	addEntry: (entry: IEntry) => Promise<void>,
+	addEntry: (entry: INewEntry) => Promise<void>
 	symptoms: ISymptom[],
-	addSymptom: (symptom: ISymptom) => Promise<void>,
+	addSymptom: (symptom: INewSymptom) => Promise<void>,
 	storageError?: string,
 	isLoading: boolean,
 }
@@ -28,10 +28,10 @@ export default function useStorage(): IStorage {
 			try {
 				setIsLoading(true);
 
-				const initialEntries = await getEntries();
+				const initialEntries = await storage.getEntries();
 				setEntries(initialEntries);
 
-				const initialSymptoms = await getSymptoms();
+				const initialSymptoms = await storage.getSymptoms();
 				setSymptoms(initialSymptoms);
 
 				setIsLoading(false);
@@ -43,21 +43,21 @@ export default function useStorage(): IStorage {
 
 	const handleAddEntry = async (entry: IEntry) => {
 		try {
-			await addEntry(entry);
-			setEntries([...entries, entry]);
+			const id = await storage.addEntry(entry);
+			setEntries([...entries, { ...entry, id }]);
 		} catch (error) {
 			setStorageError(ErrorMessage.SAVE);
 		}
-	}
+	};
 
 	const handleAddSymptom = async (symptom: ISymptom) => {
 		try {
-			await addSymptom(symptom);
-			setSymptoms([...symptoms, symptom]);
+			const id = await storage.addSymptom(symptom);
+			setSymptoms([...symptoms, { ...symptom, id }]);
 		} catch (error) {
 			setStorageError(ErrorMessage.SAVE);
 		}
-	}
+	};
 
 	return { entries, addEntry: handleAddEntry, symptoms, addSymptom: handleAddSymptom, storageError, isLoading };
 }

@@ -1,22 +1,22 @@
 import React from 'react';
-import { ISymptom, TOnSymptomSelectFn } from '../utils/types';
+import { ISymptomSuggestion, TOnSymptomSuggestionSelectFn } from '../utils/types';
 
 interface ISuggestionsProps {
-	onSelect: TOnSymptomSelectFn;
-	items: ISymptom[];
+	onSelect: TOnSymptomSuggestionSelectFn;
+	items: ISymptomSuggestion[];
 }
 
 export default function Suggestions({ items, onSelect }: ISuggestionsProps) {
-	if (!items.length) {
-		return <>Never heard of it!</>;
+	function handleSelect(suggestion: ISymptomSuggestion) {
+		onSelect(suggestion).catch(error => console.error(error));
 	}
-	
+
 	return (
 		<>
 			{
-				items.map(({ key, label }) => 
-					<button key={key} onClick={() => onSelect(key)}>
-						{label}
+				items.map((suggestion) => 
+					<button key={suggestion.id} onClick={() => handleSelect(suggestion)}>
+						{suggestion.toBeAdded ? `Add ${suggestion.label}` : suggestion.label}
 					</button>
 				)
 			}

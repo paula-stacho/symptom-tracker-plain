@@ -8,7 +8,6 @@ interface IEntriesProps {
 
 const formatTimestamp = (timestamp: number) => {
 	const date = new Date(timestamp);
-	console.log({ timestamp });
 	return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDay()} ${date.getHours()}:${date.getMinutes()}`;
 };
 
@@ -17,16 +16,14 @@ export default function Entries({ entries, knownSymptoms }: IEntriesProps) {
 		return <>Start adding entries</>;
 	}
 
-	console.log({ knownSymptoms });
-	
 	return (
 		<table>
 			<tbody>
 				{
-					entries.map(({ symptomKey, timestamp }) => 
-						<tr key={symptomKey}>
+					entries.map(({ symptomId, id, timestamp }) => 
+						<tr key={id}>
 							<td>{formatTimestamp(timestamp)}</td>
-							<td>{knownSymptoms.find(({ key }: ISymptom) => key === symptomKey)?.label}</td>
+							<td>{knownSymptoms.find(({ id: knownSymptomId }: ISymptom) => knownSymptomId === symptomId)?.label}</td>
 						</tr>
 					)
 				}

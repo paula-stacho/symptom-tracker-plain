@@ -1,16 +1,24 @@
-export type TSymptomKey = string;
-
-export interface ISymptom {
-	key: TSymptomKey;
+export interface INewSymptom {
 	label: string;
 }
-export interface IEntry {
+export interface ISymptom extends INewSymptom {
+	id: string;
+}
+export interface INewEntry {
 	timestamp: number;
-	symptomKey: TSymptomKey;
+	symptomId: string;
 }
 
-export type TSearchSymptomFn = (term: string) => void;
+export interface IEntry extends INewEntry {
+	id: string;
+}
 
-export type TOnSymptomSelectFn = (key: string) => void;
+export interface ISymptomSuggestion extends ISymptom {
+  toBeAdded?: boolean;
+}
 
-export type TNewEntryFn = (entry: IEntry) => void;
+export type TOnSymptomSuggestionSelectFn = (symptomSuggestion: ISymptomSuggestion) => Promise<void>;
+
+export type TNewEntryFn = (entry: INewEntry) => Promise<void>;
+
+export type TNewSymptomFn = (symptom: INewSymptom) => Promise<void>;
