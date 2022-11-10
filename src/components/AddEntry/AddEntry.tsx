@@ -1,8 +1,8 @@
-import React, { ChangeEvent, useState } from 'react';
-import { ISymptom, ISymptomSuggestion, TNewEntryFn, TNewSymptomFn, TOnSymptomSuggestionSelectFn } from '../utils/types';
+import React, { useState } from 'react';
+import { ISymptom, ISymptomSuggestion, TNewEntryFn, TNewSymptomFn, TOnSymptomSuggestionSelectFn } from '../../utils/types';
+import SearchInput, { searchInputId } from './SearchInput';
 import Suggestions from './Suggestions';
 
-const inputId = 'addEntryInput';
 interface IAddEntryProps {
   onNewEntry: TNewEntryFn;
   onNewSymptom: TNewSymptomFn;
@@ -19,7 +19,7 @@ export default function addEntry({ onNewEntry, onNewSymptom, knownSymptoms }: IA
   const [value, setValue] = useState<string | undefined>('');
   const [suggestions, setSuggestions] = useState<ISymptomSuggestion[] | undefined>(undefined);
 
-  const handleChange = ({ currentTarget: { value: term } }: ChangeEvent<HTMLInputElement>) => {
+  const handleSearch = (term: string) => {
     setValue(term);
     const lowCaseTerm = term.toLocaleLowerCase();
     const suggestions = knownSymptoms.filter(({ label }) => label.toLocaleLowerCase().includes(lowCaseTerm));
@@ -29,19 +29,17 @@ export default function addEntry({ onNewEntry, onNewSymptom, knownSymptoms }: IA
   };
 
   const handleSelect: TOnSymptomSuggestionSelectFn = async ({ label, id: symptomId, toBeAdded }: ISymptomSuggestion) => {
+    let newId: string;
     if (toBeAdded) {
-      await onNewSymptom({ label });
-    } else {
-      await onNewEntry({ symptomId, timestamp: Date.now() });
+      newId = await onNewSymptom({ label });
     }
+    await onNewEntry({ symptomId: newId || symptomId, timestamp: Date.now() });
   };
 
   return (
-    <div>
-      <label htmlFor={inputId}>
-        What&apos;s bothering you?
-        <input type="text" id={inputId} value={value} onChange={handleChange} />
-      </label>
+    <div style={{ marginBottom: '1em' }}>
+      <div><label htmlFor={searchInputId as string}>What&apos;s bothering you?</label></div>
+      <SearchInput value={value} onChange={handleSearch} />
       {suggestions && <Suggestions items={suggestions} onSelect={handleSelect} />}
     </div>
   );

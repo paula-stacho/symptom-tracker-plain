@@ -21,4 +21,6 @@ export type TOnSymptomSuggestionSelectFn = (symptomSuggestion: ISymptomSuggestio
 
 export type TNewEntryFn = (entry: INewEntry) => Promise<void>;
 
-export type TNewSymptomFn = (symptom: INewSymptom) => Promise<void>;
+export type TNewSymptomFn = (symptom: INewSymptom) => Promise<string>;
+
+export type TOnSearchFn = (term: string) => void;

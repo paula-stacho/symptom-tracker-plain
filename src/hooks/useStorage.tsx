@@ -6,7 +6,7 @@ export interface IStorage {
 	entries: IEntry[],
 	addEntry: (entry: INewEntry) => Promise<void>
 	symptoms: ISymptom[],
-	addSymptom: (symptom: INewSymptom) => Promise<void>,
+	addSymptom: (symptom: INewSymptom) => Promise<string>,
 	storageError?: string,
 	isLoading: boolean,
 }
@@ -54,6 +54,7 @@ export default function useStorage(): IStorage {
 		try {
 			const id = await storage.addSymptom(symptom);
 			setSymptoms([...symptoms, { ...symptom, id }]);
+			return id;
 		} catch (error) {
 			setStorageError(ErrorMessage.SAVE);
 		}
