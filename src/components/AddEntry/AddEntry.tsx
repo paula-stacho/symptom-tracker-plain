@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, FC } from 'react';
 import Color from '../../utils/colorScheme';
 import { softBox } from '../../utils/styles';
 import { ISymptom, ISymptomSuggestion, TNewEntryFn, TNewSymptomFn, TOnSymptomSuggestionSelectFn } from '../../utils/types';
-import SearchInput, { searchInputId } from './SearchInput';
+import SearchInput from './SearchInput';
 import Suggestions from './Suggestions';
 
 interface IAddEntryProps {
@@ -17,7 +17,7 @@ const getOptionToAdd = (label: string): ISymptomSuggestion => ({
   toBeAdded: true,
 });
 
-export default function addEntry({ onNewEntry, onNewSymptom, knownSymptoms }: IAddEntryProps) {
+const AddEntry: FC<IAddEntryProps> = ({ onNewEntry, onNewSymptom, knownSymptoms }) => {
   const [value, setValue] = useState<string | undefined>('');
   const [suggestions, setSuggestions] = useState<ISymptomSuggestion[] | undefined>(undefined);
 
@@ -51,7 +51,7 @@ export default function addEntry({ onNewEntry, onNewSymptom, knownSymptoms }: IA
       {suggestions && <Suggestions items={suggestions} onSelect={handleSelect} />}
     </div>
   );
-}
+};
 
 const ContainerStyle = {
   alignItems: 'start',
@@ -63,3 +63,5 @@ const ContainerStyle = {
   minHeight: '5em',
   ...softBox,
 };
+
+export default AddEntry;

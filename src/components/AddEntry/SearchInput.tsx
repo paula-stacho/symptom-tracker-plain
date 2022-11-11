@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { softBox } from '../../utils/styles';
 import { TOnSearchFn } from '../../utils/types';
 import { suggestionsId } from './Suggestions';
@@ -14,7 +14,7 @@ const enum Text {
   PLACEHOLDER = 'What\'s bothering you?',
 }
 
-export default function SearchInput({ value, onChange }: ISearchInputProps) {
+const SearchInput: FC<ISearchInputProps> = ({ value, onChange }) => {
 	return (
 		<input
 			type="search"
@@ -26,9 +26,11 @@ export default function SearchInput({ value, onChange }: ISearchInputProps) {
 			style={InputStyle}
 			/>
 	);
-}
+};
 
 const InputStyle = {
 	border: 'none',
 	...softBox, 
 };
+
+export default SearchInput;

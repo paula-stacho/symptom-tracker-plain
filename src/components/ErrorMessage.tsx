@@ -1,5 +1,12 @@
-import React, { ReactNode } from 'react';
+import React, { FC, ReactNode } from 'react';
+import Color from '../utils/colorScheme';
 
-export default function ErrorMessage({ children }: { children: ReactNode }) {
-	return (<div color="red">{children}</div>);
-}
+const ErrorMessage: FC<{ children: ReactNode }> = ({ children }) => {
+	return (<div style={ErrorMessageStyle}>{children}</div>);
+};
+
+const ErrorMessageStyle = {
+	color: Color.RED,
+};
+
+export default ErrorMessage;

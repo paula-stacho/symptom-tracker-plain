@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { FC } from 'react';
 import AddEntry from './components/AddEntry';
 import Entries from './components/Entries';
 import ErrorMessage from './components/ErrorMessage';
 import useStorage from './hooks/useStorage';
 
-export default function App() {
+const App: FC = () => {
   const { entries, addEntry, symptoms, addSymptom, storageError, isLoading } = useStorage();
 
   return (
@@ -14,4 +14,6 @@ export default function App() {
       {storageError && <ErrorMessage>{storageError}</ErrorMessage>}
     </>
   );
-}
+};
+
+export default App;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { softBox } from '../../utils/styles';
 import { ISymptomSuggestion, TOnSymptomSuggestionSelectFn } from '../../utils/types';
 
@@ -9,7 +9,7 @@ interface ISuggestionsProps {
 	items: ISymptomSuggestion[];
 }
 
-export default function Suggestions({ items, onSelect }: ISuggestionsProps) {
+const Suggestions: FC<ISuggestionsProps> = ({ items, onSelect }) => {
 	function handleSelect(suggestion: ISymptomSuggestion) {
 		onSelect(suggestion).catch(error => console.error(error));
 	}
@@ -30,7 +30,7 @@ export default function Suggestions({ items, onSelect }: ISuggestionsProps) {
 			}
 		</ul>
 	);
-}
+};
 
 const ContainerStyle = {
 	marginTop: '0px',
@@ -52,3 +52,5 @@ const ButtonStyle = {
 	marginLeft: '1em',
 	marginBottom: '1em',
 };
+
+export default Suggestions;

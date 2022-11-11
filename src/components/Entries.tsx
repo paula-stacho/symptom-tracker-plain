@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 import Color from '../utils/colorScheme';
 import { softBox } from '../utils/styles';
 import { IEntry, ISymptom } from '../utils/types';
@@ -13,7 +13,7 @@ const formatTimestamp = (timestamp: number) => {
 	return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDay()} ${date.getHours()}:${date.getMinutes()}`;
 };
 
-export default function Entries({ entries, knownSymptoms }: IEntriesProps) {
+const Entries: FC<IEntriesProps> = ({ entries, knownSymptoms }) => {
 	if (!entries.length) {
 		return <>Start adding entries</>;
 	}
@@ -32,9 +32,11 @@ export default function Entries({ entries, knownSymptoms }: IEntriesProps) {
 			</tbody>
 		</table>
 	);
-}
+};
 
 const ContainerStyle = {
 	backgroundColor: Color.PRIMARY_SOFT,
 	...softBox,
 };
+
+export default Entries;
