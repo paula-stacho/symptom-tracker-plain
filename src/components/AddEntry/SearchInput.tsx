@@ -1,4 +1,5 @@
 import React from 'react';
+import { softBox } from '../../utils/styles';
 import { TOnSearchFn } from '../../utils/types';
 import { suggestionsId } from './Suggestions';
 
@@ -9,6 +10,10 @@ interface ISearchInputProps {
 	onChange: TOnSearchFn;
 }
 
+const enum Text {
+  PLACEHOLDER = 'What\'s bothering you?',
+}
+
 export default function SearchInput({ value, onChange }: ISearchInputProps) {
 	return (
 		<input
@@ -17,6 +22,13 @@ export default function SearchInput({ value, onChange }: ISearchInputProps) {
 			id={searchInputId}
 			value={value}
 			onChange={({ currentTarget: { value } }) => onChange(value)} 
+			placeholder={Text.PLACEHOLDER}
+			style={InputStyle}
 			/>
 	);
 }
+
+const InputStyle = {
+	border: 'none',
+	...softBox, 
+};

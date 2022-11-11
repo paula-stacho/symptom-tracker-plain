@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import Color from '../../utils/colorScheme';
+import { softBox } from '../../utils/styles';
 import { ISymptom, ISymptomSuggestion, TNewEntryFn, TNewSymptomFn, TOnSymptomSuggestionSelectFn } from '../../utils/types';
 import SearchInput, { searchInputId } from './SearchInput';
 import Suggestions from './Suggestions';
@@ -37,10 +39,20 @@ export default function addEntry({ onNewEntry, onNewSymptom, knownSymptoms }: IA
   };
 
   return (
-    <div style={{ marginBottom: '1em' }}>
-      <div><label htmlFor={searchInputId as string}>What&apos;s bothering you?</label></div>
+    <div style={ContainerStyle}>
       <SearchInput value={value} onChange={handleSearch} />
       {suggestions && <Suggestions items={suggestions} onSelect={handleSelect} />}
     </div>
   );
 }
+
+const ContainerStyle = {
+  alignItems: 'start',
+  backgroundColor: Color.PRIMARY,
+  columnGap: '2em',
+  display: 'grid',
+  gridTemplateColumns: '20em auto',
+  marginBottom: '1em',
+  minHeight: '5em',
+  ...softBox,
+};

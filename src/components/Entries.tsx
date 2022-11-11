@@ -1,4 +1,6 @@
 import React from 'react';
+import Color from '../utils/colorScheme';
+import { softBox } from '../utils/styles';
 import { IEntry, ISymptom } from '../utils/types';
 
 interface IEntriesProps {
@@ -17,7 +19,7 @@ export default function Entries({ entries, knownSymptoms }: IEntriesProps) {
 	}
 
 	return (
-		<table>
+		<table style={ContainerStyle}>
 			<tbody>
 				{
 					entries.map(({ symptomId, id, timestamp }) => 
@@ -31,3 +33,8 @@ export default function Entries({ entries, knownSymptoms }: IEntriesProps) {
 		</table>
 	);
 }
+
+const ContainerStyle = {
+	backgroundColor: Color.PRIMARY_SOFT,
+	...softBox,
+};

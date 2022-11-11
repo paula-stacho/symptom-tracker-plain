@@ -1,4 +1,5 @@
 import React from 'react';
+import { softBox } from '../../utils/styles';
 import { ISymptomSuggestion, TOnSymptomSuggestionSelectFn } from '../../utils/types';
 
 export const suggestionsId = 'entry-search-suggestions';
@@ -14,12 +15,12 @@ export default function Suggestions({ items, onSelect }: ISuggestionsProps) {
 	}
 
 	return (
-		<ul id={suggestionsId} style={{ position: 'fixed', padding: '0px', marginTop: '0px', border: '1px solid #ccc' }}>
+		<ul id={suggestionsId} style={ContainerStyle}>
 			{
 				items.map((suggestion) => 
-					<li key={suggestion.id}>
+					<li key={suggestion.id} style={SuggestionStyle}>
 						<button 
-							style={{ width: '100%', listStyle: 'none', background: '#fff', border: 'none', borderBottom: '1px solid #ccc', padding: '0.3em' }}
+							style={ButtonStyle}
 							onClick={() => handleSelect(suggestion)}
 							>
 							{suggestion.toBeAdded ? `New Symptom: ${suggestion.label}` : suggestion.label}
@@ -30,3 +31,27 @@ export default function Suggestions({ items, onSelect }: ISuggestionsProps) {
 		</ul>
 	);
 }
+
+const ContainerStyle = {
+	border: '1px solid #ccc',
+	columnGap: '0.5em',
+	display: 'grid',
+	gridAutoFlow: 'column',
+	justifyContent: 'start',
+	marginTop: '0px',
+	padding: '0px',
+};
+
+const SuggestionStyle = {
+	listStyle: 'none',
+	padding: '0px',
+};
+
+const ButtonStyle = {
+	background: '#fff',
+	border: 'none',
+	cursor: 'pointer',
+	padding: '0.3em',
+	width: '100%',
+	...softBox,
+};
