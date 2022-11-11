@@ -23,10 +23,16 @@ export default function addEntry({ onNewEntry, onNewSymptom, knownSymptoms }: IA
 
   const handleSearch = (term: string) => {
     setValue(term);
+    
+    if (!term) {
+      setSuggestions([]);
+      return;
+    }
+
     const lowCaseTerm = term.toLocaleLowerCase();
     const suggestions = knownSymptoms.filter(({ label }) => label.toLocaleLowerCase().includes(lowCaseTerm));
     const hasExactMatch = !!suggestions.find(({ label }) => label === term);
-    if (!hasExactMatch) suggestions.push(getOptionToAdd(term));
+    if (!!term && !hasExactMatch) suggestions.push(getOptionToAdd(term));
     setSuggestions(suggestions);
   };
 
@@ -36,6 +42,7 @@ export default function addEntry({ onNewEntry, onNewSymptom, knownSymptoms }: IA
       newId = await onNewSymptom({ label });
     }
     await onNewEntry({ symptomId: newId || symptomId, timestamp: Date.now() });
+    setSuggestions([]);
   };
 
   return (

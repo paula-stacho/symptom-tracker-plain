@@ -23,7 +23,7 @@ export default function Suggestions({ items, onSelect }: ISuggestionsProps) {
 							style={ButtonStyle}
 							onClick={() => handleSelect(suggestion)}
 							>
-							{suggestion.toBeAdded ? `New Symptom: ${suggestion.label}` : suggestion.label}
+							{suggestion.toBeAdded ? <i>{`+ New Symptom: ${suggestion.label}`}</i> : suggestion.label}
 						</button>
 					</li>
 				)
@@ -33,25 +33,22 @@ export default function Suggestions({ items, onSelect }: ISuggestionsProps) {
 }
 
 const ContainerStyle = {
-	border: '1px solid #ccc',
-	columnGap: '0.5em',
-	display: 'grid',
-	gridAutoFlow: 'column',
-	justifyContent: 'start',
 	marginTop: '0px',
 	padding: '0px',
 };
 
 const SuggestionStyle = {
+	display: 'inline',
 	listStyle: 'none',
 	padding: '0px',
 };
 
 const ButtonStyle = {
+	...softBox,
 	background: '#fff',
 	border: 'none',
 	cursor: 'pointer',
-	padding: '0.3em',
-	width: '100%',
-	...softBox,
+	padding: '0.5em 1em',
+	marginLeft: '1em',
+	marginBottom: '1em',
 };
