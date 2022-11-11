@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, FocusEvent } from 'react';
 import { ISymptom, ISymptomSuggestion, TNewEntryFn, TNewSymptomFn, TOnSymptomSuggestionSelectFn } from '../../utils/types';
 import SearchInput, { searchInputId } from './SearchInput';
-import Suggestions from './Suggestions';
+import Suggestions, { suggestionsId } from './Suggestions';
 
 interface IAddEntryProps {
   onNewEntry: TNewEntryFn;
@@ -18,12 +18,17 @@ const getOptionToAdd = (label: string): ISymptomSuggestion => ({
 export default function addEntry({ onNewEntry, onNewSymptom, knownSymptoms }: IAddEntryProps) {
   const [value, setValue] = useState<string | undefined>('');
   const [suggestions, setSuggestions] = useState<ISymptomSuggestion[] | undefined>(undefined);
-
   const handleSearch = (term: string) => {
     setValue(term);
+
+    if (!term) { 
+      setSuggestions([]);
+      return; 
+    }
+
     const lowCaseTerm = term.toLocaleLowerCase();
     const suggestions = knownSymptoms.filter(({ label }) => label.toLocaleLowerCase().includes(lowCaseTerm));
-    const hasExactMatch = !!suggestions.find(({ label }) => label === term);
+    const hasExactMatch = !!suggestions.find(({ label }) => label.toLocaleLowerCase() === lowCaseTerm);
     if (!hasExactMatch) suggestions.push(getOptionToAdd(term));
     setSuggestions(suggestions);
   };
@@ -34,13 +39,18 @@ export default function addEntry({ onNewEntry, onNewSymptom, knownSymptoms }: IA
       newId = await onNewSymptom({ label });
     }
     await onNewEntry({ symptomId: newId || symptomId, timestamp: Date.now() });
+    setSuggestions([]);
   };
 
   return (
     <div style={{ marginBottom: '1em' }}>
       <div><label htmlFor={searchInputId as string}>What&apos;s bothering you?</label></div>
-      <SearchInput value={value} onChange={handleSearch} />
-      {suggestions && <Suggestions items={suggestions} onSelect={handleSelect} />}
+      <SearchInput
+        value={value}
+        onChange={handleSearch}
+        dataList={suggestionsId}
+        />
+      <Suggestions items={suggestions} onSelect={handleSelect} />
     </div>
   );
 }
