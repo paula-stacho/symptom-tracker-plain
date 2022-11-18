@@ -1,4 +1,4 @@
-import { getFirestore, addDoc, getDocs, collection as getCollection, query, doc } from 'firebase/firestore';
+import { getFirestore, addDoc, getDocs, collection as getCollection } from 'firebase/firestore';
 import { app } from './firebaseApp';
 import { Collection } from './types';
 
