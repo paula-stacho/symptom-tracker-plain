@@ -8,7 +8,7 @@ interface IEntriesProps {
 	knownSymptoms: ISymptom[];
 }
 
-const formatTimestamp = (timestamp: number) => {
+export const formatTimestamp = (timestamp: number) => {
 	const date = new Date(timestamp);
 	return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDay()} ${date.getHours()}:${date.getMinutes()}`;
 };

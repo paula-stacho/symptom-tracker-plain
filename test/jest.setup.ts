@@ -1,3 +1,5 @@
+import '@testing-library/jest-dom/extend-expect';
+
 const mockCollection: unknown[] = [];
 
 jest.mock('firebase/firestore', () => ({
@@ -6,8 +8,10 @@ jest.mock('firebase/firestore', () => ({
 		mockCollection.push(doc);
 		return mockCollection.length;
 	}), 
-	getDocs: jest.fn().mockImplementation(() => [...mockCollection]),
-	collection: 'mock',
+	getDocs: jest.fn().mockImplementation(() => ({ 
+		docs: [...mockCollection],
+	})),
+	collection: jest.fn(),
 }));
 
 jest.mock('firebase/app', () => ({

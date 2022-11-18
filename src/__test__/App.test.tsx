@@ -4,9 +4,9 @@ import App from '../App';
 
 describe('App', () => {
 
-	it('renders', () => {
-		act(() => {
-			render(<App />);
+	it('renders', async () => {
+		await act(async () => {
+			await render(<App />);
 		});
 	});
 

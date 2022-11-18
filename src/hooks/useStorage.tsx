@@ -36,6 +36,7 @@ export default function useStorage(): IStorage {
 
 				setIsLoading(false);
 			} catch (error) {
+				console.error({ error });
 				setStorageError(ErrorMessage.LOAD);
 			}
 		})();
