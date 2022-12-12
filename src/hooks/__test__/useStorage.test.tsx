@@ -2,7 +2,7 @@ import React, { FC, useEffect } from 'react';
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import mockSymptoms, { otherPainId } from '../../../test/fixtures/symptoms';
 import mockEntries from '../../../test/fixtures/entries';
-import useStorage from '../useStorage';
+import useStorage, { ErrorMessage } from '../useStorage';
 import storage from '../../lib/storage';
 
 const newSymptom = {
@@ -57,6 +57,15 @@ describe('useStorage', () => {
 		});
 	});
 
+	it('Catches load failure', async () => {
+		jest.spyOn(storage, 'getEntries').mockRejectedValue(new Error('Nope.'));
+		render(<TestComponent />);
+	
+		await waitFor(() => {
+			expect(storageUpdate).toHaveBeenCalledWith(expect.objectContaining({ storageError: ErrorMessage.LOAD, isLoading: false }));
+		});
+	});
+
 	it('Handles addEntry', async () => {
 		render(<TestComponent />);
 		const addEntryBtn = screen.getByRole('button', { name: 'addEntry' });
@@ -80,6 +89,17 @@ describe('useStorage', () => {
 		await waitFor(() => {
 			expect(addSymptomSpy).toHaveBeenCalledWith(newSymptom);
 			// expect(storageUpdate).toHaveBeenCalledWith(expect.objectContaining({ symptoms: newSymptoms })); // TODO: fix
+		});
+	});
+
+	it('Catches save failure', async () => {
+		render(<TestComponent />);
+		jest.spyOn(storage, 'addEntry').mockRejectedValue(new Error('Terrible thing happened'));
+		const addEntryBtn = screen.getByRole('button', { name: 'addEntry' });
+		fireEvent.click(addEntryBtn);
+
+		await waitFor(() => {
+			expect(storageUpdate).toHaveBeenCalledWith(expect.objectContaining({ storageError: ErrorMessage.SAVE, isLoading: false }));
 		});
 	});
 

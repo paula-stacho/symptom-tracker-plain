@@ -11,7 +11,7 @@ export interface IStorage {
 	isLoading: boolean,
 }
 
-const enum ErrorMessage {
+export const enum ErrorMessage {
 	LOAD = 'I am having some trouble loading data :(',
 	SAVE = 'I am having some trouble saving your changes :(',
 }
@@ -22,11 +22,21 @@ export default function useStorage(): IStorage {
 	const [storageError, setStorageError] = useState<string | undefined>();
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 
+	const startLoading = () => {
+		setIsLoading(true);
+		setStorageError(undefined);
+	};
+
+	const stopLoading = (errorMessage?: ErrorMessage) => {
+		setIsLoading(false);
+		setStorageError(errorMessage);
+	}
+
 	useEffect(() => {
 		/* eslint-disable @typescript-eslint/no-floating-promises */
 		(async () => {
 			try {
-				setIsLoading(true);
+				startLoading();
 
 				const initialEntries = await storage.getEntries();
 				setEntries(initialEntries);
@@ -37,27 +47,29 @@ export default function useStorage(): IStorage {
 				setIsLoading(false);
 			} catch (error) {
 				console.error({ error });
-				setStorageError(ErrorMessage.LOAD);
+				stopLoading(ErrorMessage.LOAD);
 			}
 		})();
 	}, []);
 
 	const handleAddEntry = async (entry: IEntry) => {
 		try {
+			startLoading();
 			const id = await storage.addEntry(entry);
 			setEntries([...entries, { ...entry, id }]);
 		} catch (error) {
-			setStorageError(ErrorMessage.SAVE);
+			stopLoading(ErrorMessage.SAVE);
 		}
 	};
 
 	const handleAddSymptom = async (symptom: ISymptom) => {
 		try {
+			startLoading();
 			const id = await storage.addSymptom(symptom);
 			setSymptoms([...symptoms, { ...symptom, id }]);
 			return id;
 		} catch (error) {
-			setStorageError(ErrorMessage.SAVE);
+			stopLoading(ErrorMessage.SAVE);
 		}
 	};
 
