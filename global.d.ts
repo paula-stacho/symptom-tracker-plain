@@ -1,0 +1,1 @@
+declare var ENV: Record<string, string>;

@@ -1,9 +1,6 @@
 import { initializeApp } from 'firebase/app';
+import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check';
 
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: 'AIzaSyD7_-6Dv_lNqwGmCoAM1-wiMkgjyOA5o5Y',
   authDomain: 'symptom-tracker-plain.firebaseapp.com',
@@ -15,3 +12,12 @@ const firebaseConfig = {
 
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
+
+const { RE_CAPTCHA_KEY } = ENV;
+if (!RE_CAPTCHA_KEY) { console.error('App misconfiguration - missing reCaptchaKey'); }
+
+// Initialize AppCheck
+export const appCheck = initializeAppCheck(app, {
+  provider: new ReCaptchaV3Provider(RE_CAPTCHA_KEY),
+  isTokenAutoRefreshEnabled: true
+});

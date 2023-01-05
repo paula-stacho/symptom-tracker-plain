@@ -1,4 +1,6 @@
 const path = require('path');
+const webpack = require('webpack');
+const dotenv = require('dotenv');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -26,5 +28,8 @@ module.exports = {
     port: 9000,
     open: true,
   },
+  plugins: [new webpack.DefinePlugin({
+    ENV: JSON.stringify(dotenv.config().parsed),
+  })],
   mode: 'development',
 };
