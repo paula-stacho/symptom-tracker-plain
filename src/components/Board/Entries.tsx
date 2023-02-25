@@ -31,7 +31,6 @@ const Entries: FC<IEntriesProps> = ({ entries, knownSymptoms }) => {
 };
 
 const ContainerStyle = {
-	backgroundColor: Color.PRIMARY_SOFT,
 	...softBox,
 };
 

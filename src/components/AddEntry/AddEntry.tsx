@@ -55,7 +55,6 @@ const AddEntry: FC<IAddEntryProps> = ({ onNewEntry, onNewSymptom, knownSymptoms 
 
 const ContainerStyle = {
   alignItems: 'start',
-  backgroundColor: Color.PRIMARY,
   columnGap: '2em',
   display: 'grid',
   gridTemplateColumns: '20em auto',

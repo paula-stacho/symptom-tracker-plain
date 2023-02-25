@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import Color from '../../utils/colorScheme';
 import { softBox } from '../../utils/styles';
 import { TOnSearchFn } from '../../utils/types';
 import { suggestionsId } from './Suggestions';
@@ -29,7 +30,7 @@ const SearchInput: FC<ISearchInputProps> = ({ value, onChange }) => {
 };
 
 const InputStyle = {
-	border: 'none',
+	border: `1px ${Color.PRIMARY} solid`,
 	...softBox, 
 };
 

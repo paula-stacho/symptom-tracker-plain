@@ -147,7 +147,6 @@ const Heatmap: FC<IHeatmapProps> = ({ entries, knownSymptoms }) => {
 };
 
 const ContainerStyle = {
-	backgroundColor: Color.SECONDARY_SOFT,
 	...softBox,
 };
 
