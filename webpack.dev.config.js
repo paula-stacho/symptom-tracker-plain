@@ -28,8 +28,11 @@ module.exports = {
     port: 9000,
     open: true,
   },
-  plugins: [new webpack.DefinePlugin({
-    ENV: JSON.stringify(dotenv.config().parsed),
-  })],
+  plugins: [
+    new webpack.DefinePlugin({
+      APP_CONFIG: JSON.stringify(dotenv.config().parsed),
+      NODE_ENV: JSON.stringify('development'),
+    }),
+  ],
   mode: 'development',
 };

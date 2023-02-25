@@ -1,8 +1,14 @@
-import { getFirestore, addDoc, getDocs, collection as getCollection } from 'firebase/firestore';
+import { getFirestore, addDoc, getDocs, collection as getCollection, connectFirestoreEmulator } from 'firebase/firestore';
 import { app } from './firebaseApp';
 import { Collection } from './types';
 
 const db = getFirestore(app);
+if (NODE_ENV === 'development') {
+	console.log('USING EMULATOR FIRESTORE');
+	connectFirestoreEmulator(db, 'localhost', 8080);
+} else {
+	console.log('USING EXTERNAL FIRESTORE');
+}
 
 export async function saveOne<T>(collection: Collection, item: T): Promise<string> {
 	const { id } = await addDoc(getCollection(db, collection), item);

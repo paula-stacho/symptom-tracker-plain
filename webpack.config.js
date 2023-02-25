@@ -1,4 +1,7 @@
 const path = require('path');
+const CopyPlugin = require('copy-webpack-plugin');
+const dotenv = require('dotenv');
+const webpack = require('webpack');
 
 module.exports = {
   entry: './src/index.tsx',
@@ -18,5 +21,14 @@ module.exports = {
     filename: 'bundle.js',
     path: path.resolve(__dirname, 'dist'),
   },
+  plugins: [
+    new CopyPlugin({
+      patterns: ["public"],
+    }),
+    new webpack.DefinePlugin({
+      APP_CONFIG: JSON.stringify(dotenv.config().parsed),
+      NODE_ENV: JSON.stringify('production'),
+    }),
+  ],
   mode: 'production',
 };
