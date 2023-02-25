@@ -15,7 +15,6 @@ export const app = initializeApp(firebaseConfig);
 
 const { RE_CAPTCHA_KEY } = APP_CONFIG;
 if (!RE_CAPTCHA_KEY) { console.error('App misconfiguration - missing reCaptchaKey'); }
-console.log({ RE_CAPTCHA_KEY });
 
 // Initialize AppCheck
 export const appCheck = initializeAppCheck(app, {

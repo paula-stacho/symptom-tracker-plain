@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react';
 import React from 'react';
 import entries, { formattedTimestamp1 } from '../../../test/fixtures/entries';
 import symptoms, { headacheLabel, otherPainLabel } from '../../../test/fixtures/symptoms';
-import Entries from '../Entries';
+import Entries from '../Board/Entries';
 
 describe('<Entries/>', () => {
 

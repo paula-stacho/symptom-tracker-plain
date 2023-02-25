@@ -1,17 +1,13 @@
 import React, { FC } from 'react';
-import Color from '../utils/colorScheme';
-import { softBox } from '../utils/styles';
-import { IEntry, ISymptom } from '../utils/types';
+import Color from '../../utils/colorScheme';
+import { timestampToDateAndTime } from '../../utils/helpers';
+import { softBox } from '../../utils/styles';
+import { IEntry, ISymptom } from '../../utils/types';
 
 interface IEntriesProps {
 	entries: IEntry[];
 	knownSymptoms: ISymptom[];
 }
-
-const formatTimestamp = (timestamp: number) => {
-	const date = new Date(timestamp);
-	return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}`;
-};
 
 const Entries: FC<IEntriesProps> = ({ entries, knownSymptoms }) => {
 	if (!entries.length) {
@@ -24,7 +20,7 @@ const Entries: FC<IEntriesProps> = ({ entries, knownSymptoms }) => {
 				{
 					entries.map(({ symptomId, id, timestamp }) => 
 						<tr key={id}>
-							<td>{formatTimestamp(timestamp)}</td>
+							<td>{timestampToDateAndTime(timestamp)}</td>
 							<td>{knownSymptoms.find(({ id: knownSymptomId }: ISymptom) => knownSymptomId === symptomId)?.label}</td>
 						</tr>
 					)

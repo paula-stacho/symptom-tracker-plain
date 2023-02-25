@@ -9,6 +9,7 @@ const enum Color {
 	RED = '#d47b84',
 	GREEN = '#b0d47b',
 	PRIMARY_SOFT = '#dbf3f0',
+	SECONDARY_SOFT = '#dbf3e5',
 }
 
 export default Color;

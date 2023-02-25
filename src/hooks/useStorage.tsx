@@ -12,8 +12,8 @@ export interface IStorage {
 }
 
 export const enum ErrorMessage {
-	LOAD = 'I am having some trouble loading data :(',
-	SAVE = 'I am having some trouble saving your changes :(',
+	LOAD = 'Sorry.. I am having some trouble loading data :(',
+	SAVE = 'Sorry.. I am having some trouble saving your changes :(',
 }
 
 export default function useStorage(): IStorage {
