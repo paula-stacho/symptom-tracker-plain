@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { IEntry, ISymptom } from '../../utils/types';
 import Entries from './Entries';
-import Heatmap from './Heatmap';
+import Heatmap from './Charts/Heatmap';
 
 interface IBoardProps {
 	entries: IEntry[];

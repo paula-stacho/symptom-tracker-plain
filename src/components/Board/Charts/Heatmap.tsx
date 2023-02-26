@@ -1,13 +1,19 @@
 import React, { FC, useEffect, useRef } from 'react';
 import * as d3 from 'd3';
-import Color from '../../utils/colorScheme';
-import { softBox } from '../../utils/styles';
-import { IEntry, ISymptom } from '../../utils/types';
-import { getSymptomLabels, timestampToDate } from '../../utils/helpers';
+import Color from '../../../utils/colorScheme';
+import { softBox } from '../../../utils/styles';
+import { IEntry, ISymptom } from '../../../utils/types';
+import { getSymptomLabels, timestampToDate } from '../../../utils/helpers';
 
 interface IHeatmapProps {
 	entries: IEntry[];
 	knownSymptoms: ISymptom[];
+}
+
+interface IHeatmapDataPoint {
+	date: string;
+	symptom: string;
+	count: number;
 }
 
 const height = 200;
@@ -40,13 +46,13 @@ const getData = ({
 
 	let maxCount = 0;
 	const symptomLabels = getSymptomLabels(knownSymptoms);
-	const heatmapData: [string, string, number][] = [];
+	const heatmapData: IHeatmapDataPoint[] = [];
 	for (let date of Object.keys(indexedData)) {
 		for (let symptomId of Object.keys(indexedData[date])) {
 			const count = indexedData[date][symptomId];
 			if (count > maxCount) maxCount = count;
-			const item: [string, string, number] = [date, symptomLabels[symptomId], count];
-			heatmapData.push(item);
+			const point = { date, symptom: symptomLabels[symptomId], count };
+			heatmapData.push(point);
 		}
 	}
 
@@ -83,14 +89,14 @@ const Heatmap: FC<IHeatmapProps> = ({ entries, knownSymptoms }) => {
 			.domain([0, maxCount]);
 
 		svg.selectAll()
-      .data(heatmapData, ([date, symptom, count]) => `${date}:${symptom}`)
+      .data(heatmapData, ({ date, symptom }) => `${date}:${symptom}`)
       .enter()
       .append('rect')
-      .attr('x', ([date, symptom, count]) => x(date))
-      .attr('y', ([date, symptom, count]) => y(symptom))
+      .attr('x', ({ date }) => x(date))
+      .attr('y', ({ symptom }) => y(symptom))
       .attr('width', x.bandwidth() )
       .attr('height', y.bandwidth() )
-      .style('fill', ([date, symptom, count]) => color(count) )
+      .style('fill', ({ count }) => color(count) )
 	}, [entries, knownSymptoms]);
 
 		return (
