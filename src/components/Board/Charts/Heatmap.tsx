@@ -47,7 +47,7 @@ const getData = ({
 	let maxCount = 0;
 	const symptomLabels = getSymptomLabels(knownSymptoms);
 	const heatmapData: IHeatmapDataPoint[] = [];
-	for (let date of Object.keys(indexedData)) {
+	for (let date of Object.keys(indexedData).reverse()) {
 		for (let symptomId of Object.keys(indexedData[date])) {
 			const count = indexedData[date][symptomId];
 			if (count > maxCount) maxCount = count;
