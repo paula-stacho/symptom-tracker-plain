@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import AddEntry from './components/AddEntry';
-import Board from './components/Board/Board';
+import Board from './components/Board';
 import ErrorMessage from './components/ErrorMessage';
 import useStorage from './hooks/useStorage';
 import Color from './utils/colorScheme';
